@@ -1,40 +1,21 @@
 #!/bin/bash
 
-DEFAULT_OUTPUT_FREQ=3.1e6
+# Variables
 TMP_DIR="$HOME/RickPi/tmp_files"
-IMPRT_WAV_DIR="$HOME/RickPi"
-AUDIO_AMPLITUDE=0.5
-GAIN_AMPLITUDE=8.0
-RPITX_PATH="$HOME/rpitx"
 LOG_FILE="/tmp/rife_transmission.log"
+RPITX_PATH="$HOME/rpitx"
+OUTPUT_FREQ=31000000
+GAIN_AMPLITUDE=8.0
 
-choose_output_frequency() {
-    OUTPUT_FREQ=$(whiptail --inputbox "Enter output Frequency (in Hz). Default is 3.1 MHz" 8 78 $DEFAULT_OUTPUT_FREQ --title "Change Carrier Frequency" 3>&1 1>&2 2>&3)
-    OUTPUT_FREQ=${OUTPUT_FREQ:-$DEFAULT_OUTPUT_FREQ}
-}
+# Ensure the tmp_files directory exists
+mkdir -p "$TMP_DIR"
 
-choose_audio_amplitude() {
-    AUDIO_AMPLITUDE=$(whiptail --inputbox "Enter audio amplitude for WAV file generation (0.0 - 1.0). Default is 0.5" 8 78 $AUDIO_AMPLITUDE --title "Change Audio Amplitude" 3>&1 1>&2 2>&3)
-    AUDIO_AMPLITUDE=${AUDIO_AMPLITUDE:-0.5}
-}
-
-choose_gain_amplitude() {
-    GAIN_AMPLITUDE=$(whiptail --inputbox "Enter gain amplitude for transmission. Default is 8.0" 8 78 $GAIN_AMPLITUDE --title "Change Gain Amplitude" 3>&1 1>&2 2>&3)
-    GAIN_AMPLITUDE=${GAIN_AMPLITUDE:-8.0}
-}
-
-stop_transmissions() {
-    sudo pkill -f rpitx
-    sudo pkill -f tran.sh
-    rm -rf "$TMP_DIR/*"
-    echo "Stopped all transmissions and cleared the temporary files."
-}
-
+# List imported WAV files
 list_imported_wav_files() {
     wav_files=()
     while IFS= read -r wav_file; do
         wav_files+=("$(basename "$wav_file")" "")
-    done < <(find "$IMPRT_WAV_DIR" -name '*.wav')
+    done < <(find "$HOME/RickPi" -name '*.wav')
 
     wav_choice=$(whiptail --title "RickPi - Imported WAV Files" --menu "Choose a WAV file to transmit:" 20 78 10 "${wav_files[@]}" 3>&1 1>&2 2>&3)
     if [ $? -ne 0 ]; then
@@ -42,7 +23,7 @@ list_imported_wav_files() {
         exit 0
     fi
 
-    echo "$IMPRT_WAV_DIR/$wav_choice" > "$TMP_DIR/generated_files.txt"
+    echo "$HOME/RickPi/$wav_choice" > "$TMP_DIR/generated_files.txt"
     transmit_files
 }
 
@@ -69,7 +50,4 @@ transmit_files() {
 }
 
 # Main script execution
-choose_output_frequency
-choose_audio_amplitude
-choose_gain_amplitude
 list_imported_wav_files
