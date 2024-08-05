@@ -28,7 +28,7 @@ install_rpitx() {
     fi
 }
 
-# Function to copy scripts to appropriate directories
+# Function to copy scripts to appropriate directories and delete them from the repo folder
 install_rickroll_modification() {
     # Copy rick.sh to $HOME/rpitx
     echo "Copying rick.sh..."
@@ -43,6 +43,10 @@ install_rickroll_modification() {
     echo "Setting permissions and ownership..."
     sudo chown "$USER:$USER" "$DEST_RICK_SCRIPT" "$DEST_START_SCRIPT" "$DEST_STOP_SCRIPT"
     chmod +x "$DEST_RICK_SCRIPT" "$DEST_START_SCRIPT" "$DEST_STOP_SCRIPT"
+
+    # Delete the copied scripts from the repo directory
+    echo "Deleting copied scripts from the repository folder..."
+    rm "$RICK_SCRIPT" "$START_SCRIPT" "$STOP_SCRIPT"
 
     echo "Installation complete."
 }
