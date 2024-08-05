@@ -49,11 +49,9 @@ chmod +x rickrollinstall.sh
 
 ## Configuration
 
-### Customizing Frequencies and Waveforms
+### Information
 
-You can customize the frequencies and waveforms by modifying the relevant scripts and JSON files.
-
-- `rick.sh`: Main script for transmitting Rickroll frequencies.
+- `rick.sh`: Main script for transmitting Rickroll.
 - `startroll.sh`: Script to start the transmission process.
 - `stoproll.sh`: Script to stop the transmission process.
 - `rickrollinstall.sh`: Installation script.
