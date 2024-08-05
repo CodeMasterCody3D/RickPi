@@ -1,7 +1,7 @@
 
 ## RickPi
 
-This project uses RPiTX to generate and transmit Rickrolling frequencies. It includes scripts for installing the necessary software, transmitting the Rickroll song, and stopping transmissions.
+This project uses RPiTX to transmit rickroll.wav. It includes scripts for installing the necessary software, transmitting the Rickroll song, and stopping transmissions.
 
 ## Installation
 
